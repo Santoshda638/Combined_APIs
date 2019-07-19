@@ -7,12 +7,9 @@ import (
 	"testing"
 )
 
-var ctr = NewController()
+var ctr = NewHandller()
 
 func TestJokeHandller(t *testing.T) {
-	// Update global cache with random name
-	// uncomment below line to use api random name instead of static ones
-	// getRandomName()
 
 	// Create a request for handler.
 	req, err := http.NewRequest("GET", "/GetNewJoke", nil)
@@ -39,4 +36,16 @@ func TestJokeHandller(t *testing.T) {
 			rr.Body.String(), expected)
 	}
 
+}
+
+func BenchmarkHandller(b *testing.B) {
+	req, err := http.NewRequest("GET", "/GetNewJoke", nil)
+	if err != nil {
+		b.Fatal(err)
+	}
+	for n := 0; n < b.N; n++ {
+		rw := httptest.NewRecorder()
+		ctr.GetNewJokeHandller(rw, req)
+		//fmt.Println(rw.Body.String())
+	}
 }

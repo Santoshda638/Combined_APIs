@@ -8,20 +8,23 @@ and another api(when user called 'localhost:8080/GetNewJoke') fetch names from t
 make backend api call to get a joke by sending this name as parameter.
 
 
-TODO: Performance benchmarking 
+
 
 Dependencies
 -------
 go get github.com/gorilla/mux
 
-
 ## Build & Run
 go build
 ./jokeapi
 
+## Test and Benchmark
+go test
+go test -run=xx -bench=.
+
 ## Usage
 curl http://localhost:8080/GetNewJoke
 
+It should return a random joke
 
-Should return a random joke
-
+TODO: profile analysis and optimization

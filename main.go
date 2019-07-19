@@ -7,24 +7,33 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"sync"
 	"time"
+)
+
+var (
+	wg sync.WaitGroup
 )
 
 func main() {
 
-	// set http handllers routes
-	router := newRouter()
+	handller := NewHandller()
+	port := "8080"
+	mux := http.NewServeMux()
+	mux.HandleFunc("/GetNewJoke", handller.GetNewJokeHandller)
+
 	srv := &http.Server{
-		Addr:    ":8080",
-		Handler: router,
+		Addr:    fmt.Sprintf(":%s", port),
+		Handler: mux,
 	}
+
+	// Lets build the cache for names and jokes.
+	go buildCache()
 
 	// Run server in a seperate goroutine so that it doesn't block.
 	go func() {
-		fmt.Println("Listening at port", srv.Addr)
-		if err := srv.ListenAndServe(); err != nil {
-			log.Println(err)
-		}
+		fmt.Println("Listening at port :", port)
+		log.Fatal(srv.ListenAndServe())
 	}()
 
 	// For gracefull shutdown
