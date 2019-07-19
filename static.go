@@ -17,7 +17,7 @@ type Joke struct {
 }
 
 const USER_DETAILS_URL = "http://uinames.com/api/"
-const JOKES_URL = "http://api.icndb.com/jokes/random?firstName=%v&lastName=%v&limitTo=[nerdy]"
+const JOKES_URL = "http://api.icndb.com/jokes/random?firstName=%s&lastName=%s&limitTo=\\[nerdy\\]"
 
 var firstNames = []string{"sam", "denial", "Michel"}
 var lastNames = []string{"mac", "piotr", "Sandy"}
